@@ -5,7 +5,9 @@
 package managers;
 
 import enemy.Enemy;
-import java.awt.Color;
+import helpz.Constant;
+import static helpz.Constant.Mages.*;
+import static helpz.Constant.Projectiles.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -34,8 +36,22 @@ public class ProjectileManager {
     }
     
     public void newProjectile(MageTower m, Enemy e){
+        int type = getProjectileType(m);
         
-    }
+        int xDistance = (int)Math.abs(m.getX() - e.getX());
+        int yDistance = (int)Math.abs(m.getY() - e.getY());
+        int totalDistance = xDistance + yDistance;
+        
+        float xPercent = (float)xDistance / totalDistance;
+        float yPercent = 1.0f - xPercent;
+        
+        float xSpeed = xPercent * Constant.Projectiles.GetSpeed(type);
+        float ySpeed = yPercent * Constant.Projectiles.GetSpeed(type);
+        
+        if(m.getX() > e.getX()){
+            xSpeed *= -1;
+        }
+    } 
     public void update(){
         
     }
@@ -44,5 +60,19 @@ public class ProjectileManager {
         for(Image im: projectImg){
             g.drawImage(im, 300, 300, null);
         }
+    }
+
+    public int getProjectileType(MageTower m){
+        switch(m.getTowerType()){
+            case ICE:
+                return ICE_SPELL;
+            case EARTH:
+                return EARTH_SPELL;
+            case WIND:
+                return WIND_SPELL;
+            case FIRE:
+                return FIRE_SPELL;
+        }
+        return 0;
     }
 }

@@ -131,7 +131,7 @@ public class Constant {
         public static final int ICE_SPELL=1;
         public static final int EARTH_SPELL=2;
         public static final int FIRE_SPELL=3;
-        public static double GetSpeed(int mageTowerType){
+        public static float GetSpeed(int mageTowerType){
             switch(mageTowerType){
                 case ICE_SPELL:
                     return 2;
