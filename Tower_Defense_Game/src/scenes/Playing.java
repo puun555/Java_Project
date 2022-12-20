@@ -81,7 +81,6 @@ public class Playing extends GameScene implements SceneMethods {
             if(isTimeForNewEnemies()){
                 spawnEnemy();
             }
-            
             mageTowerManager.update();
             enemyManager.update();
             projectileManager.update();
@@ -105,11 +104,9 @@ public class Playing extends GameScene implements SceneMethods {
         }
         return true;
     }
-    
     private void spawnEnemy() {
         enemyManager.spawnEnemy(waveManager.getNextEnemy());
     }
-
     private boolean isTimeForNewEnemies() {
         if(waveManager.isTimeForNewEnemies()){
             if(waveManager.isThereMoreEnemyInWave()){
@@ -138,15 +135,11 @@ public class Playing extends GameScene implements SceneMethods {
         projectileManager.draw(g);
         
     }
-    
-    
-    
     private void drawSelectedTower(Graphics g) {
         if(selectedTower != null){
             g.drawImage(mageTowerManager.getMageSprite()[selectedTower.getTowerType()], mouseX, mouseY-28,32,48, null);
         }
     }
-    
     private void drawHoverTile(Graphics g){
         g.setColor(Color.WHITE);
         if(selectedTower != null){
@@ -159,7 +152,6 @@ public class Playing extends GameScene implements SceneMethods {
         
         g.drawRect(mouseX, mouseY, 32, 32);
     }
-    
     public void setSelectedTower(MageTower selectedTower) {
         this.selectedTower = selectedTower;
     }
@@ -319,7 +311,4 @@ public class Playing extends GameScene implements SceneMethods {
     public boolean isPause() {
         return pause;
     }
-
-   
-    
 }
