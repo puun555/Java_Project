@@ -353,7 +353,7 @@ public class InGameBar {
         return playerHp;
     }
     public void reset(){
-        playerHp = 1000;
+        playerHp = Constant.playerHP;
         showMage=false;
         imageIndex=0;
         gold=Constant.GOLD;
