@@ -19,7 +19,7 @@ public class WaveManager {
     private Playing playing;
     private int spawnTickLimit = 30 * 2;
     private int spawnTick = spawnTickLimit;
-    private int waveTickLimit = 60 * 15;
+    private int waveTickLimit = 60 * 10;
     private int waveTick =0;
     private int enemyIndex,waveIndex;
     private boolean waveStartTimer ;
@@ -36,6 +36,9 @@ public class WaveManager {
             waveTick++;
             if(waveTick >= waveTickLimit){
                 waveTimerOver = true;
+                if(waveTimerOver){
+                    playing.getGameBar().giveGold(15);
+                }
             }
         }
     }
@@ -44,6 +47,13 @@ public class WaveManager {
         waveTick =0;
         waveTimerOver = false;
         waveStartTimer = false;
+    }
+    public void increaseEnemyHpEveryTwoWave(Enemy e) {
+        // Check if the wave index is divisible by 2
+        if (waveIndex % 2 == 0 && waveIndex != 0) {
+            // Increase the enemy's HP by 35%
+            this.HP *= 1.35;
+        }
     }
      public boolean isWaveTimerOver() {
         return waveTimerOver;
@@ -58,10 +68,10 @@ public class WaveManager {
 
     private void createWaves() {
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,2,0,2,0,2,0,2,0))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,2,0,2,0,2,2))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,1,1,1,1,1,1,1,1,1,1))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,0,1,2,1,2,1,1,1,1,1,1,1,1))));
     }
     public boolean isTimeForNewEnemies() {
         return spawnTick >= spawnTickLimit;

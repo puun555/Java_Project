@@ -63,7 +63,7 @@ public class Playing extends GameScene implements SceneMethods {
             waveManager.update();
             //Generate Gold
             goldTick++;
-            if(goldTick % (60 * 3) == 0){
+            if(goldTick % (60 * 2) == 0){
                 gameBar.giveGold(1);
             }
             if(isAllEnemiesDead()){
@@ -125,14 +125,18 @@ public class Playing extends GameScene implements SceneMethods {
    
     @Override
     public void render(Graphics g) {
-        drawLevel(g);
-        drawDecoration(g);
-        gameBar.draw(g);
-        drawHoverTile(g);
-        enemyManager.draw(g);
-        mageTowerManager.draw(g);
-        drawSelectedTower(g);
-        projectileManager.draw(g);
+        try{
+            drawLevel(g);
+            drawDecoration(g);
+            gameBar.draw(g);
+            drawHoverTile(g);
+            enemyManager.draw(g);
+            mageTowerManager.draw(g);
+            drawSelectedTower(g);
+            projectileManager.draw(g);
+        }catch(Exception e){
+
+        }
         
     }
     private void drawSelectedTower(Graphics g) {

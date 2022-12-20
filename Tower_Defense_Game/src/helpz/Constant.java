@@ -32,26 +32,26 @@ public class Constant {
         public static int getGold(int type){
             switch(type){
                 case NORMAL:
-                    return 5;
+                    return GetHealth(NORMAL);
                 case TANKY:
-                    return 10;
+                    return GetHealth(TANKY);
                 case THIEFT:
-                    return 5;
+                    return GetHealth(THIEFT);
                 case BOSS:
-                    return 50;
+                    return GetHealth(BOSS);
             }
             return 0;
         }
         public static float GetSpeed(int type){
             switch(type){
                 case NORMAL:
-                    return 1f;
+                    return 0.7f;
                 case TANKY:
-                    return .5f;
+                    return .4f;
                 case THIEFT:
-                    return 1.5f;
+                    return 2.1f;
                 case BOSS:
-                    return .8f;
+                    return .7f;
             }
             return 0;
         }
@@ -62,7 +62,7 @@ public class Constant {
                 case TANKY:
                     return 12;
                 case THIEFT:
-                    return 4;
+                    return 5;
                 case BOSS:
                     return 175;
             }
@@ -90,13 +90,13 @@ public class Constant {
         public static int GetCostMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 600;
-                case EARTH:
                     return 400;
+                case EARTH:
+                    return 325;
                 case WIND:
                     return 150;
                 case FIRE:
-                    return 250;
+                    return 200;
             }
             return 0;
         }
@@ -105,7 +105,7 @@ public class Constant {
                 case ICE:
                     return 0;
                 case EARTH:
-                    return 3;
+                    return 2;
                 case WIND:
                     return 2;
                 case FIRE:
@@ -118,24 +118,24 @@ public class Constant {
                 case ICE:
                     return 70;
                 case EARTH:
-                    return 100;
+                    return 90;
                 case WIND:
-                    return 100;
+                    return 120;
                 case FIRE:
-                    return 100;
+                    return 80;
             }
             return 0;
         }
         public static double GetCooldownMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 30;
+                    return 35;
                 case EARTH:
-                    return 30;
+                    return 60;
                 case WIND:
-                    return 30;
+                    return 50;
                 case FIRE:
-                    return 15;
+                    return 10;
             }
             return 0;
         }

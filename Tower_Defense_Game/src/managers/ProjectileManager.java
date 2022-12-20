@@ -111,10 +111,10 @@ public class ProjectileManager {
                     else if(isEnemyHasShield(e)){
                         if(!(m.getMagicType() == EARTH)){
                             e.attacked(m.getDmg()/2);
-                            
+
                         }else{
-                            e.attacked(m.getDmg()*2);
-                            
+                            e.attacked(m.getDmg()*3);
+
                         }
                     }
                     else{
