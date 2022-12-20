@@ -63,7 +63,7 @@ public class Playing extends GameScene implements SceneMethods {
             waveManager.update();
             //Generate Gold
             goldTick++;
-            if(goldTick % (60 * 2) == 0){
+            if(goldTick % (60 * 3) == 0){
                 gameBar.giveGold(1);
             }
             if(isAllEnemiesDead()){
@@ -135,8 +135,9 @@ public class Playing extends GameScene implements SceneMethods {
             drawSelectedTower(g);
             projectileManager.draw(g);
         }catch(Exception e){
-
+            
         }
+        
         
     }
     private void drawSelectedTower(Graphics g) {
@@ -207,6 +208,7 @@ public class Playing extends GameScene implements SceneMethods {
         }
     }
     public void attackPlayerHp(int enemyType){
+        System.out.println(gameBar.getPlayerHp());
         gameBar.attackPlayerHp(Enemies.GetHealth(enemyType));
     }
     public void giveGold(int enemyType) {
@@ -315,4 +317,18 @@ public class Playing extends GameScene implements SceneMethods {
     public boolean isPause() {
         return pause;
     }
+
+    public void reset() {
+        gameBar.reset();
+        mageTowerManager.reset();
+        enemyManager.reset();
+        projectileManager.reset();
+        waveManager.reset();
+        selectedTower = null;
+        pause=false;
+        mouseX=0;
+        mouseY=0;
+        goldTick=0;
+    }
+    
 }

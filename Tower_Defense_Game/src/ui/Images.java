@@ -16,13 +16,16 @@ import javax.swing.ImageIcon;
  * @author sahad
  */
 public class Images {
-    public BufferedImage img,start_button,logoImage,quit_button,background,menu_button,pause_button,unPause_button;
+    public BufferedImage img,start_button,logoImage,quit_button,background;
+    public BufferedImage menu_button,pause_button,unPause_button;
+    public BufferedImage gameOver,defeat,backToMenu;
     public Image normal_enemy,tanky_enemy,thieft_enemy,boss_enemy;
     public Image wind_mage,fire_mage,earth_mage,ice_mage;
     public Image fireBolt,rockSpell,iceBolt,windSpell;
     public BufferedImage big_Tree,cut_Tree,big_Brush,farm,ver_brush,hor_brush;
     public BufferedImage wind_button,ice_button,fire_button,earth_button;
-    public BufferedImage wind_effect,freeze_effect;
+    public BufferedImage wind_effect,freeze_effect,fire_effect;
+    public Image player_hp;
     public int x,y,width,height;
     public Images(){
         importImg();
@@ -51,6 +54,10 @@ public class Images {
         InputStream menu = getClass().getResourceAsStream("/res/button/menu.png");
         InputStream pause = getClass().getResourceAsStream("/res/button/pause.png");
         InputStream unPause = getClass().getResourceAsStream("/res/button/unpause.png");
+        InputStream gameOverBg = getClass().getResourceAsStream("/res/gameover.png");
+        File playerHP = new File("src/res/heart.gif");
+        InputStream defeatImg = getClass().getResourceAsStream("/res/defeat.png");
+        InputStream backMenu = getClass().getResourceAsStream("/res/backtomenu.png");
         //Magic spell
         File fire_Bolt = new File("src/res/mage/spell/firebolt.gif");
         File rock_Spell = new File("src/res/mage/spell/rock.gif");
@@ -59,6 +66,8 @@ public class Images {
         //Magic Effect
         InputStream windEffect = getClass().getResourceAsStream("/res/effect/wind_effect.png");
         InputStream freezeEffect = getClass().getResourceAsStream("/res/effect/freeze_effect.png");
+        InputStream fireEffect = getClass().getResourceAsStream("/res/effect/fire_effect.png");
+        
         
         //Map
         InputStream is = getClass().getResourceAsStream("/res/decoration_map/map.png");
@@ -92,6 +101,10 @@ public class Images {
             quit_button = ImageIO.read(quitButton);
             pause_button = ImageIO.read(pause);
             unPause_button = ImageIO.read(unPause);
+            player_hp = new ImageIcon(playerHP.getAbsolutePath()).getImage();
+            gameOver = ImageIO.read(gameOverBg);
+            defeat = ImageIO.read(defeatImg);
+            backToMenu = ImageIO.read(backMenu);
             //Magic spell
             fireBolt = new ImageIcon(fire_Bolt.getAbsolutePath()).getImage();
             rockSpell = new ImageIcon(rock_Spell.getAbsolutePath()).getImage();
@@ -100,6 +113,7 @@ public class Images {
             //Magic effect
             wind_effect = ImageIO.read(windEffect);
             freeze_effect = ImageIO.read(freezeEffect);
+            fire_effect = ImageIO.read(fireEffect);
             //Map
             img = ImageIO.read(is);
             big_Tree = ImageIO.read(bigTree);

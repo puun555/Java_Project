@@ -242,4 +242,15 @@ public class EnemyManager {
     public void attackPlayerHp(int enemyType){
         playing.attackPlayerHp(enemyType);
     }
+    public boolean isWaveIndexDivideByTwo(){
+        return playing.getWaveManager().isWaveIndexDivideByTwo();
+    }
+    public int getWaveIndeex(){
+        return playing.getWaveManager().getWaveIndex();
+    }
+
+    public void reset() {
+        enemies.clear();
+    }
+    
 }

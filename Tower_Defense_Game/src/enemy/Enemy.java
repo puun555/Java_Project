@@ -16,7 +16,7 @@ import managers.EnemyManager;
 public abstract class Enemy {
     protected float x,y;
     protected Rectangle bounds;
-    protected int HP,maxHP;
+    protected int HP,maxHP,temHP;
     protected float speed;
     protected int enemyType;
     protected int lastDir;
@@ -37,6 +37,12 @@ public abstract class Enemy {
     private void setEnemieHealth(){
         HP = Enemies.GetHealth(enemyType);
         maxHP = HP;
+    }
+    private void increaseEnemyHp(){
+        HP = maxHP;
+        if(enemyManager.isWaveIndexDivideByTwo()){
+            HP *= 1.35;
+        }
     }
     public float getHPBar(){
         return HP/(float)maxHP;
@@ -93,9 +99,7 @@ public abstract class Enemy {
             enemyManager.giveGold(enemyType);
         }
     }
-    public void increaseEnemyHpEveryTwoWave(){
-        this.HP *= 1.35;
-    }
+    
     public Rectangle getBounds() {
         return bounds;
     }

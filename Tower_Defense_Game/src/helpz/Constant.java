@@ -32,20 +32,20 @@ public class Constant {
         public static int getGold(int type){
             switch(type){
                 case NORMAL:
-                    return GetHealth(NORMAL);
+                    return GetHealth(type);
                 case TANKY:
-                    return GetHealth(TANKY);
+                    return GetHealth(type);
                 case THIEFT:
-                    return GetHealth(THIEFT);
+                    return GetHealth(type);
                 case BOSS:
-                    return GetHealth(BOSS);
+                    return GetHealth(type);
             }
             return 0;
         }
         public static float GetSpeed(int type){
             switch(type){
                 case NORMAL:
-                    return 0.7f;
+                    return .7f;
                 case TANKY:
                     return .4f;
                 case THIEFT:
@@ -68,6 +68,7 @@ public class Constant {
             }
             return 0;
         }
+        
     }
     public static class Mages{
         public static final int WIND=0;

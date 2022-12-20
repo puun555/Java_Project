@@ -106,6 +106,11 @@ public class MageTowerManager {
         return mageSprite;
     }
 
+    public void reset() {
+        mages.clear();
+        id=0;
+    }
+
     
 
     

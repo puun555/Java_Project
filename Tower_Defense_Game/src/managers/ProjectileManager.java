@@ -29,7 +29,7 @@ public class ProjectileManager {
     private ArrayList<MagicProjectile> magic = new ArrayList<>();
     private ArrayList<Effect> effect = new ArrayList<>();
     private Image[] projectImg;
-    private BufferedImage[] effectImg;
+    private BufferedImage[] effectWind;
     private Images image = new Images();
     private int proj_id;
     private int tier;
@@ -44,12 +44,12 @@ public class ProjectileManager {
         projectImg[2] = image.iceBolt;
         projectImg[3] = image.rockSpell;
         projectImg[1] = image.fireBolt;
-        importAoeEffect();
+        importEffect();
     }
-    private void importAoeEffect() {
-        effectImg = new BufferedImage[21];
+    private void importEffect() {
+        effectWind = new BufferedImage[21];
         for(int i=0;i<4;i++){
-            effectImg[i] = image.wind_effect.getSubimage(50 * i, 0, 50, 50);
+            effectWind[i] = image.wind_effect.getSubimage(50 * i, 0, 50, 50);
         }
     }
     public void newProjectile(MageTower m, Enemy e){
@@ -84,11 +84,15 @@ public class ProjectileManager {
                 m.move();
                 if(isHitEnemy(m)){
                     m.setActive(false);
+                    effect.add(new Effect(m.getPos()));
                     if(m.getMagicType() == WIND){
-                        effect.add(new Effect(m.getPos()));
+                        
                         if(isTier3(m)){
                             AoEonEnemies(m);
                         }
+                        
+                    }
+                    else if(m.getMagicType() == FIRE){
                         
                     }
                 }else if(isNotHitEnemy(m)){
@@ -111,10 +115,10 @@ public class ProjectileManager {
                     else if(isEnemyHasShield(e)){
                         if(!(m.getMagicType() == EARTH)){
                             e.attacked(m.getDmg()/2);
-
+                            
                         }else{
                             e.attacked(m.getDmg()*3);
-
+                            
                         }
                     }
                     else{
@@ -174,7 +178,7 @@ public class ProjectileManager {
         int h =40;
         for(Effect e:effect){
             if(e.getIndex() < 11){
-                g2d.drawImage(effectImg[e.getIndex()], (int)e.getPos().x-w/2, (int)e.getPos().y-h/2,w,h,null);
+                g2d.drawImage(effectWind[e.getIndex()], (int)e.getPos().x-w/2, (int)e.getPos().y-h/2,w,h,null);
             }
         }
     }
@@ -197,6 +201,12 @@ public class ProjectileManager {
             return true;
         }
         return false;
+    }
+
+    public void reset() {
+        magic.clear();
+        effect.clear();
+        proj_id=0;
     }
 
    

@@ -6,6 +6,7 @@ package managers;
 
 import enemy.Enemy;
 import events.Wave;
+import static helpz.Constant.Enemies.BOSS;
 import java.util.ArrayList;
 import java.util.Arrays;
 import scenes.Playing;
@@ -36,9 +37,7 @@ public class WaveManager {
             waveTick++;
             if(waveTick >= waveTickLimit){
                 waveTimerOver = true;
-                if(waveTimerOver){
-                    playing.getGameBar().giveGold(15);
-                }
+                getGoldPerWave(15);
             }
         }
     }
@@ -47,13 +46,6 @@ public class WaveManager {
         waveTick =0;
         waveTimerOver = false;
         waveStartTimer = false;
-    }
-    public void increaseEnemyHpEveryTwoWave(Enemy e) {
-        // Check if the wave index is divisible by 2
-        if (waveIndex % 2 == 0 && waveIndex != 0) {
-            // Increase the enemy's HP by 35%
-            this.HP *= 1.35;
-        }
     }
      public boolean isWaveTimerOver() {
         return waveTimerOver;
@@ -67,11 +59,17 @@ public class WaveManager {
     }
 
     private void createWaves() {
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,2,0,2,0,2,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,1,1,1,1,1,1,1,1,1,1))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,0,1,2,1,2,1,1,1,1,1,1,1,1))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0)))); //1
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,2,0,2,0,2,2)))); //2
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2)))); //3
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,1,1,1,1,1,1,1,1,1,1)))); //4
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,2,0,2,0,2,0,2,0,2,0,2,0,1,2,1,2,1,1,1,1,1,1,1,1)))); //5
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2)))); //6
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)))); //7
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)))); //8
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0)))); //9
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(BOSS,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,BOSS)))); //10
     }
     public boolean isTimeForNewEnemies() {
         return spawnTick >= spawnTickLimit;
@@ -103,8 +101,23 @@ public class WaveManager {
         return this.waveStartTimer;
     }
     public boolean isWaveIndexDivideByTwo(){
-        return this.waveIndex / 2 == 0;
+        return (waveIndex+1) % 2 == 0;
     }
+    public void getGoldPerWave(int amount){
+        playing.getGameBar().giveGold(amount);
+    }
+
+    public void reset() {
+        waves.clear();
+        createWaves();
+        waveIndex=0;
+        enemyIndex=0;
+        waveStartTimer=false;
+        waveTimerOver=false;
+        waveTick=0;
+        spawnTick = spawnTickLimit;
+    }
+    
 
     
 

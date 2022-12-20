@@ -6,6 +6,7 @@ import inputs.KeyboardListener;
 import inputs.MyMouseListener;
 import managers.DecorationManager;
 import managers.TileManager;
+import scenes.GameOver;
 import scenes.Menu;
 import scenes.Playing;
 import scenes.Settings;
@@ -24,7 +25,7 @@ public class Game extends JFrame implements Runnable {
 	private Render render;
 	private Menu menu;
 	private Playing playing;
-	private Settings settings;
+	private GameOver gameOver;
         private TileManager tileManager;
         private DecorationManager decorationManager;
 	public Game() {
@@ -45,7 +46,7 @@ public class Game extends JFrame implements Runnable {
             gameScreen = new GameScreen(this);
             menu = new Menu(this);
             playing = new Playing(this);
-            settings = new Settings(this);
+            gameOver = new GameOver(this);
 	}
 
 	
@@ -62,7 +63,7 @@ public class Game extends JFrame implements Runnable {
                 case PLAYING:
                     playing.update();
                     break;
-                case SETTINGS:
+                case GAMEOVER:
                     break;
                 default:
                     break;
@@ -126,15 +127,18 @@ public class Game extends JFrame implements Runnable {
 		return playing;
 	}
 
-	public Settings getSettings() {
-		return settings;
-	}
+	public GameOver getGameOver() {
+            return gameOver;
+        }
         public TileManager getTileManager(){
             return tileManager;
         }
+        
 
     public DecorationManager getDecorationManager() {
         return decorationManager;
     }
+
+    
         
 }

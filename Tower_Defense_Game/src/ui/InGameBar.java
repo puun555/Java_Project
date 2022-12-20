@@ -5,17 +5,13 @@
 package ui;
 
 import helpz.Constant;
-import helpz.Constant.Enemies;
 import helpz.Constant.Mages;
 import static helpz.Constant.Mages.GetCostMage;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
-import javax.imageio.ImageIO;
 import static main.GameStates.*;
 import objects.MageTower;
 import scenes.Playing;
@@ -61,6 +57,8 @@ public class InGameBar {
         drawGoldInfro(g);
         //Mage infro
         drawMageBox(g);
+        //Player HP
+        drawPlayerHP(g);
     }
    
     private void drawGoldInfro(Graphics g) {
@@ -121,9 +119,155 @@ public class InGameBar {
         
     }
   
+    
+    
+    public void displayMageInfro(MageTower mt) {
+        mageInfro = mt;
+    }
+    private void drawDisplayMageInfro(Graphics g){
+        if(mageInfro != null){
+            g.drawImage(playing.getMageTowerManager().getMageSprite()[mageInfro.getTowerType()], 400,650 ,48 ,64 ,null);
+            g.setFont(font);
+            if(mageInfro.getTier() == 1){
+                g.setColor(Color.white);
+                g.drawString("Common " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
+            }else if(mageInfro.getTier() == 2){
+                g.setColor(Color.BLUE);
+                g.drawString("Mystic " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
+            }else{
+                g.setColor(Color.ORANGE);
+                g.drawString("Legendary " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
+            }
+//            g.drawString("" + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
+            //Draw Range
+            drawRangeMage(g);
+            //Sell
+            
+            sellButton.draw(g);
+            //Upgradea
+            if(mageInfro.getTier() < 3){
+                upgradeButton.draw(g);
+            }
+            if(sellButton.isMouseOver()){
+                g.setColor(Color.GREEN);
+                g.drawString("Receive gold: "+getSellGold(mageInfro)+"$", 460, 690);
+            }else if(upgradeButton.isMouseOver()){
+                if(!isCanUpgrade(mageInfro.getTowerType())){
+                    g.setColor(Color.RED);
+                }else{
+                    g.setColor(Color.GREEN);
+                }
+                g.drawString("Upgrade: "+getUpgradeGold(mageInfro)+"$", 460, 690);
+            }else {
+                g.setColor(Color.WHITE);
+                g.drawString(getAbilityMage(mageInfro), 460, 690);
+            }
+        }
+        
+    }
+    private void drawMageBox(Graphics g){
+        int yOffset = 20;
+        if(showMage){
+            g.drawRect(190, 700, 170, 80);
+            g.drawRect(195, 705, 160, 70);
+            g.setColor(Color.white);
+            g.setFont(font);
+            g.drawString("" + getNameMage(), 230, 725);
+            g.drawString("Price : " + getCostMage() + "$", 220, 725 + yOffset);
+            if(notEnoughGold()){
+                g.setColor(Color.RED);
+                g.drawString("Not enough gold", 210, 725 + yOffset*2);
+            }
+        }
+        
+    }
+    public void setMageInfro(MageTower mageInfro) {
+        this.mageInfro = mageInfro;
+    }
+
+    public void drawRangeMage(Graphics g) {
+        int range = (int)mageInfro.getRange()*2;
+        g.drawRect(mageInfro.getX(), mageInfro.getY(), 32, 32);
+        g.setColor(Color.WHITE);
+        g.drawOval(mageInfro.getX() - range/2 + 16, 
+                mageInfro.getY() - range/2 + 16, range, range);
+    }
+    private void drawPlayerHP(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Monospaced", Font.BOLD, 20));
+        g.drawImage(allImage.player_hp, 370, 750,32,32,null);
+        g.drawString("Player HP: "+this.playerHp, 410, 775);
+        g.drawImage(allImage.player_hp, 600, 750,32,32,null);
+    }
+    public void pause() {
+        if(playing.isPause() == false){
+            bPause.setImage(allImage.unPause_button);
+            playing.setPause(true);
+        }else{
+            bPause.setImage(allImage.pause_button);
+            playing.setPause(false);
+        }
+        
+    }
+    private void upgradeTower() {
+        playing.upgradeTower(mageInfro);
+        this.gold -= getUpgradeGold(mageInfro);
+    }
+    private void sellTower() {
+        playing.sellTower(mageInfro);
+        this.gold += GetCostMage(mageInfro.getTowerType())/2 ;
+        int upgradeGold = getUpgradeGold(mageInfro) * (mageInfro.getTier()-1);
+        upgradeGold *= 0.5f;
+        this.gold += upgradeGold;
+        mageInfro = null;
+    }
+    public void giveGold(int amount) {
+        this.gold += amount;
+    }
+    public void payForTower(int towerType) {
+        this.gold -= GetCostMage(towerType);
+    }
+    private boolean isGoldEnough(int towerType) {
+        return (gold >= GetCostMage(towerType));
+    }
+    private boolean isCanUpgrade(int towerType){
+        return (gold >= GetCostMage(towerType)*2);
+    }
+    private boolean notEnoughGold(){
+        return getCostMage() > gold;
+    }
+    private String getNameMage(){
+        return Mages.GetNameMage(imageIndex);
+    }
+    private int getCostMage(){
+        return Mages.GetCostMage(imageIndex);
+    }
+
+    private int getSellGold(MageTower mageInfro) {
+        int upgradeGold = getUpgradeGold(mageInfro) * (mageInfro.getTier()-1);
+        upgradeGold *= 0.5f;
+        return Mages.GetCostMage(mageInfro.getTowerType())/3 + upgradeGold;
+    }
+
+    private int getUpgradeGold(MageTower mageInfro) {
+        return Mages.GetCostMage(mageInfro.getTowerType())*2;
+    }
+
+    private String getAbilityMage(MageTower mageInfro) {
+        return Mages.GetAbilityMage(mageInfro.getTowerType());
+    }
+
+    public void attackPlayerHp(int damage){
+        this.playerHp -= damage;
+        if(playerHp <=0){
+            SetGameState(GAMEOVER);
+        }
+    }
+    
     public void mouseClicked(int x, int y) {
         if(bMenu.getBounds().contains(x, y)){
             SetGameState(MENU);
+            pause();
         }else if(bPause.getBounds().contains(x,y)){
             pause();
         }else{
@@ -199,140 +343,20 @@ public class InGameBar {
         upgradeButton.setMousePressed(false);
         bPause.setMousePressed(false);
     }
+
+    public int getPlayerHp() {
+        return playerHp;
+    }
+    public void reset(){
+        playerHp = 1000;
+        showMage=false;
+        imageIndex=0;
+        gold=Constant.GOLD;
+        mageInfro=null;
+        selectedTower=null;
+    }
     
-    public void displayMageInfro(MageTower mt) {
-        mageInfro = mt;
-    }
-    private void drawDisplayMageInfro(Graphics g){
-        if(mageInfro != null){
-            g.drawImage(playing.getMageTowerManager().getMageSprite()[mageInfro.getTowerType()], 400,650 ,48 ,64 ,null);
-            g.setFont(font);
-            if(mageInfro.getTier() == 1){
-                g.setColor(Color.white);
-                g.drawString("Common " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
-            }else if(mageInfro.getTier() == 2){
-                g.setColor(Color.BLUE);
-                g.drawString("Mystic " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
-            }else{
-                g.setColor(Color.ORANGE);
-                g.drawString("Legendary " + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
-            }
-//            g.drawString("" + Mages.GetNameMage(mageInfro.getTowerType()), 460, 670);
-            //Draw Range
-            drawRangeMage(g);
-            //Sell
-            
-            sellButton.draw(g);
-            //Upgradea
-            if(mageInfro.getTier() < 3){
-                upgradeButton.draw(g);
-            }
-            if(sellButton.isMouseOver()){
-                g.setColor(Color.GREEN);
-                g.drawString("Receive gold: "+getSellGold(mageInfro)+"$", 460, 690);
-            }else if(upgradeButton.isMouseOver()){
-                if(!isCanUpgrade(mageInfro.getTowerType())){
-                    g.setColor(Color.RED);
-                }else{
-                    g.setColor(Color.GREEN);
-                }
-                g.drawString("Upgrade: "+getUpgradeGold(mageInfro)+"$", 460, 690);
-            }else {
-                g.setColor(Color.WHITE);
-                g.drawString(getAbilityMage(mageInfro), 460, 690);
-            }
-        }
-        
-    }
-    private void drawMageBox(Graphics g){
-        int yOffset = 20;
-        if(showMage){
-            g.drawRect(190, 700, 170, 80);
-            g.drawRect(195, 705, 160, 70);
-            g.setColor(Color.white);
-            g.setFont(font);
-            g.drawString("" + getNameMage(), 200, 725);
-            g.drawString("Price : " + getCostMage() + "$", 200, 725 + yOffset);
-            if(notEnoughGold()){
-                g.setColor(Color.RED);
-                g.drawString("Not enough gold", 200, 725 + yOffset*2);
-            }
-        }
-        
-    }
-    public void setMageInfro(MageTower mageInfro) {
-        this.mageInfro = mageInfro;
-    }
-
-    public void drawRangeMage(Graphics g) {
-        int range = (int)mageInfro.getRange()*2;
-        g.drawRect(mageInfro.getX(), mageInfro.getY(), 32, 32);
-        g.setColor(Color.WHITE);
-        g.drawOval(mageInfro.getX() - range/2 + 16, 
-                mageInfro.getY() - range/2 + 16, range, range);
-    }
-    private void pause() {
-        if(playing.isPause() == false){
-            bPause.setImage(allImage.unPause_button);
-            playing.setPause(true);
-        }else{
-            bPause.setImage(allImage.pause_button);
-            playing.setPause(false);
-        }
-        
-    }
-    private void upgradeTower() {
-        playing.upgradeTower(mageInfro);
-        this.gold -= getUpgradeGold(mageInfro);
-    }
-    private void sellTower() {
-        playing.sellTower(mageInfro);
-        this.gold += GetCostMage(mageInfro.getTowerType())/2 ;
-        int upgradeGold = getUpgradeGold(mageInfro) * (mageInfro.getTier()-1);
-        upgradeGold *= 0.5f;
-        this.gold += upgradeGold;
-        mageInfro = null;
-    }
-    public void giveGold(int amount) {
-        this.gold += amount;
-    }
-    public void payForTower(int towerType) {
-        this.gold -= GetCostMage(towerType);
-    }
-    private boolean isGoldEnough(int towerType) {
-        return (gold >= GetCostMage(towerType));
-    }
-    private boolean isCanUpgrade(int towerType){
-        return (gold >= GetCostMage(towerType)*2);
-    }
-    private boolean notEnoughGold(){
-        return getCostMage() > gold;
-    }
-    private String getNameMage(){
-        return Mages.GetNameMage(imageIndex);
-    }
-    private int getCostMage(){
-        return Mages.GetCostMage(imageIndex);
-    }
-
-    private int getSellGold(MageTower mageInfro) {
-        int upgradeGold = getUpgradeGold(mageInfro) * (mageInfro.getTier()-1);
-        upgradeGold *= 0.5f;
-        return Mages.GetCostMage(mageInfro.getTowerType())/3 + upgradeGold;
-    }
-
-    private int getUpgradeGold(MageTower mageInfro) {
-        return Mages.GetCostMage(mageInfro.getTowerType())*2;
-    }
-
-    private String getAbilityMage(MageTower mageInfro) {
-        return Mages.GetAbilityMage(mageInfro.getTowerType());
-    }
-
-    public void attackPlayerHp(int damage){
-        this.playerHp -= damage;
-    }
-
+    
     
     
 }

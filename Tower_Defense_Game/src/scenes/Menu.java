@@ -15,42 +15,24 @@ import static main.GameStates.*;
 import ui.Images;
 import ui.MyImage;
 public class Menu extends GameScene implements SceneMethods {
-	private ArrayList<BufferedImage> sprites = new ArrayList<>();
-	private Random random;
-        private MyButton bPlaying,bSetting,bQuit,bMenu;
-        private MyImage bLogo,bBg;
-        private boolean mouseOver;
-        private Images allImage;
-	public Menu(Game game) {
-		super(game);
-		random = new Random();
-                allImage = new Images();
-		
-		loadSprites();
-                initButtons();
-	}
-
-	@Override
-	public void render(Graphics g) {
-            bBg.draw(g);
-            bLogo.draw(g);
-            drawButtons(g);
-	}
-
+    private ArrayList<BufferedImage> sprites = new ArrayList<>();
+    private Random random;
+    private MyButton bPlaying,bSetting,bQuit,bMenu;
+    private MyImage LogoUI,Background;
+    private boolean mouseOver;
+    private Images allImage;
+    public Menu(Game game) {
+        super(game);
+        allImage = new Images();
+        initButtons();
+    }
+    @Override
+    public void render(Graphics g) {
+        Background.draw(g);
+        LogoUI.draw(g);
+        drawButtons(g);
+    }
 	
-
-	private void loadSprites() {
-		for (int y = 0; y < 1; y++) {
-			for (int x = 0; x < 9; x++) {
-				sprites.add(allImage.img.getSubimage(x * 32, y * 32, 32, 32));
-			}
-		}
-
-	}
-
-	private int getRndInt() {
-		return random.nextInt(100);
-	}
 
     private void drawButtons(Graphics g) {
         bPlaying.draw(g);
@@ -63,8 +45,8 @@ public class Menu extends GameScene implements SceneMethods {
         int x = 640 / 2 - w / 2;
         int y = 250;
         int yOffset = 80;
-        bBg = new MyImage(allImage.background,-20,0,672,800);
-        bLogo = new MyImage(allImage.logoImage,640 / 2 - 600 / 2,150,600,100);
+        Background = new MyImage(allImage.background,-20,0,672,800);
+        LogoUI = new MyImage(allImage.logoImage,640 / 2 - 600 / 2,150,600,100);
         bPlaying = new MyButton(allImage.start_button,x,y+yOffset,w,h);
         bQuit = new MyButton(allImage.quit_button,x,y+yOffset*2,w,h);
     }
@@ -73,6 +55,7 @@ public class Menu extends GameScene implements SceneMethods {
     public void mouseClicked(int x, int y) {
         if(bPlaying.getBounds().contains(x, y)){
             SetGameState(PLAYING);
+            
         }else if(bQuit.getBounds().contains(x,y)){
             System.exit(0);
         }
