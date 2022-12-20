@@ -8,15 +8,20 @@
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/main/GameStates.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/inputs/MyMouseListener.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/ui/Music.java</file>
+            <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/objects/MagicProjectile.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/ui/InGameBar.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/managers/WaveManager.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/main/Render.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/scenes/GameOver.java</file>
+            <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/managers/TileManager.java</file>
+            <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/managers/ProjectileManager.java</file>
+            <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/managers/EnemyManager.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/scenes/Playing.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/scenes/GameScene.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/helpz/Constant.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/main/Game.java</file>
             <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/main/GameScreen.java</file>
+            <file>file:/C:/Users/sahad/OneDrive/Desktop/IT19/OOP65/Tower_Defense_Game/src/scenes/SceneMethods.java</file>
         </group>
     </open-files>
 </project-private>

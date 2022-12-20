@@ -10,6 +10,7 @@ package helpz;
  */
 public class Constant {
     public static final int GOLD=290;
+    public static int playerHP =500;
     public static class Direction{
         public static final int LEFT=0;
         public static final int UP=1;

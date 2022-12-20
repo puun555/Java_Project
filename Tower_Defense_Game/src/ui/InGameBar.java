@@ -33,7 +33,7 @@ public class InGameBar {
     private boolean showMage;
     private int imageIndex;
     private int gold = Constant.GOLD;
-    private int playerHp = 1000;
+    private int playerHp = Constant.playerHP;
     private BufferedImage[] mage_Button;
     private MyTextButton sellButton,upgradeButton;
     public InGameBar(int x,int y,int width,int height, Playing playing){
