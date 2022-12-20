@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
 public class Images {
     public BufferedImage img,start_button,logoImage,quit_button,background;
     public BufferedImage menu_button,pause_button,unPause_button;
-    public BufferedImage gameOver,defeat,backToMenu;
+    public BufferedImage gameOver,defeat,backToMenu,vUp_button,vDown_button,gameVictory;
     public Image normal_enemy,tanky_enemy,thieft_enemy,boss_enemy;
     public Image wind_mage,fire_mage,earth_mage,ice_mage;
     public Image fireBolt,rockSpell,iceBolt,windSpell;
@@ -55,9 +55,12 @@ public class Images {
         InputStream pause = getClass().getResourceAsStream("/res/button/pause.png");
         InputStream unPause = getClass().getResourceAsStream("/res/button/unpause.png");
         InputStream gameOverBg = getClass().getResourceAsStream("/res/gameover.png");
+        InputStream vUp = getClass().getResourceAsStream("/res/vUp.png");
+        InputStream vDown = getClass().getResourceAsStream("/res/vDown.png");
         File playerHP = new File("src/res/heart.gif");
         InputStream defeatImg = getClass().getResourceAsStream("/res/defeat.png");
         InputStream backMenu = getClass().getResourceAsStream("/res/backtomenu.png");
+        InputStream gameVictoryBg = getClass().getResourceAsStream("/res/gamevictory.png");
         //Magic spell
         File fire_Bolt = new File("src/res/mage/spell/firebolt.gif");
         File rock_Spell = new File("src/res/mage/spell/rock.gif");
@@ -105,6 +108,9 @@ public class Images {
             gameOver = ImageIO.read(gameOverBg);
             defeat = ImageIO.read(defeatImg);
             backToMenu = ImageIO.read(backMenu);
+            vUp_button = ImageIO.read(vUp);
+            vDown_button = ImageIO.read(vDown);
+            gameVictory = ImageIO.read(gameVictoryBg);
             //Magic spell
             fireBolt = new ImageIcon(fire_Bolt.getAbsolutePath()).getImage();
             rockSpell = new ImageIcon(rock_Spell.getAbsolutePath()).getImage();

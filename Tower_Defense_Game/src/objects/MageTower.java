@@ -33,21 +33,21 @@ public class MageTower {
         switch(towerType){
             case ICE:
                 range += 10;
-                cooldown -= 20;
+                cooldown -= 5;
                 break;
             case EARTH:
-                damage *= 1.1;
+                damage *= 2;
                 range += 10;
-                cooldown -= 0;
+                cooldown -= 5;
                 break;
             case WIND:
-                damage *= 1.2;
+                damage *= 2;
                 range += 10;
-                cooldown -= 0;
+                cooldown -= 5;
                 break;
             case FIRE:
-                damage *= 1.1;
-                range += 0;
+                damage *= 2;
+                range += 10;
                 cooldown -= 5;
                 break;
         }

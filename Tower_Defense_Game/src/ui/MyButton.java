@@ -50,12 +50,13 @@ public class MyButton {
         if(mousePressed){
             g.drawImage(img, x+2, y+1,width-4,height-2,null);
         }
+        else if(mouseOver){
+            g.drawImage(img, x-2, y-1,width+4,height+2,null);
+        }
         else{
             g.drawImage(img, x, y,width,height,null);
         }
-        if(mouseOver){
-            g.drawImage(img, x-2, y-1,width+4,height+2,null);
-        }
+        
     }
     public Rectangle getBounds(){
         return bounds;

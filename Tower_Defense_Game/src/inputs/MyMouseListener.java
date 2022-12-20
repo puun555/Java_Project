@@ -29,6 +29,9 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
                         case GAMEOVER:
                             game.getGameOver().mouseMove(e.getX(), e.getY());
                             break;
+                        case GAMEVICTORY:
+                            game.getGameVictory().mouseMove(e.getX(), e.getY());
+                            break;
                         default:
                             break;
                     }
@@ -46,6 +49,9 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
                             break;
                         case GAMEOVER:
                             game.getGameOver().mouseClicked(e.getX(), e.getY());
+                            break;
+                        case GAMEVICTORY:
+                            game.getGameVictory().mouseClicked(e.getX(), e.getY());
                             break;
                         default:
                             break;
@@ -67,6 +73,9 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
                         case GAMEOVER:
                             game.getGameOver().mousePressed(e.getX(), e.getY());
                             break;
+                        case GAMEVICTORY:
+                            game.getGameVictory().mousePressed(e.getX(), e.getY());
+                            break;
                         default:
                             break;
                     }
@@ -86,6 +95,9 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
                             break;
                         case GAMEOVER:
                             game.getGameOver().mouseReleased(e.getX(), e.getY());
+                            break;
+                        case GAMEVICTORY:
+                            game.getGameVictory().mouseReleased(e.getX(), e.getY());
                             break;
                         default:
                             break;

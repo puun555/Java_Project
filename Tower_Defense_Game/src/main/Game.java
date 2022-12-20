@@ -7,15 +7,16 @@ import inputs.MyMouseListener;
 import managers.DecorationManager;
 import managers.TileManager;
 import scenes.GameOver;
+import scenes.GameVictory;
 import scenes.Menu;
 import scenes.Playing;
-import scenes.Settings;
+import ui.Music;
+
 
 public class Game extends JFrame implements Runnable {
 
 	private GameScreen gameScreen;
 	private Thread gameThread;
-
 	private final double FPS_SET = 120.0;
 	private final double UPS_SET = 60.0;
 
@@ -28,6 +29,8 @@ public class Game extends JFrame implements Runnable {
 	private GameOver gameOver;
         private TileManager tileManager;
         private DecorationManager decorationManager;
+        private Music music;
+        private GameVictory gameVictory;
 	public Game() {
 		initClasses();
                 this.setTitle("Tower Defense Beginner");
@@ -47,6 +50,10 @@ public class Game extends JFrame implements Runnable {
             menu = new Menu(this);
             playing = new Playing(this);
             gameOver = new GameOver(this);
+            gameVictory = new GameVictory(this);
+            music = new Music();
+            this.playSound(0);
+            this.volumeDown(30);
 	}
 
 	
@@ -64,6 +71,8 @@ public class Game extends JFrame implements Runnable {
                     playing.update();
                     break;
                 case GAMEOVER:
+                    break;
+                case GAMEVICTORY:
                     break;
                 default:
                     break;
@@ -113,32 +122,59 @@ public class Game extends JFrame implements Runnable {
 		}
 
 	}
+        public void playSound(int i){
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+    public void stopSound(){
+        music.stop();
+    }
+    public void playSE(int i){
+        music.setFile(i);
+        music.play();
+    }
+    public void volumeUp(){
+        music.volumeUp();
+    }
+    public void volumeDown(){
+        music.volumeDown();
+    }
+    public void volumeUp(int i){
+        music.volumeUp(i);
+    }
+    public void volumeDown(int i){
+        music.volumeDown(i);
+    }
+// Getters and setters
+    public Render getRender() {		
+        return render;
+    }
+    public Menu getMenu() {
+        return menu;
+    }
+    public Playing getPlaying() {
+        return playing;
+    }
+    public GameOver getGameOver() {
+        return gameOver;
+    }
 
-	// Getters and setters
-	public Render getRender() {
-		return render;
-	}
-
-	public Menu getMenu() {
-		return menu;
-	}
-
-	public Playing getPlaying() {
-		return playing;
-	}
-
-	public GameOver getGameOver() {
-            return gameOver;
-        }
-        public TileManager getTileManager(){
-            return tileManager;
-        }
-        
-
+    public GameVictory getGameVictory() {
+        return gameVictory;
+    }
+    
+    public TileManager getTileManager(){
+        return tileManager;
+    }
     public DecorationManager getDecorationManager() {
         return decorationManager;
     }
 
+    public Music getMusic() {
+        return music;
+    }
+    
     
         
 }

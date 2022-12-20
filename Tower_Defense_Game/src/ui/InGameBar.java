@@ -261,21 +261,25 @@ public class InGameBar {
         this.playerHp -= damage;
         if(playerHp <=0){
             SetGameState(GAMEOVER);
+            playing.playSE(2);
+            playing.volumeDown(5);
         }
     }
     
     public void mouseClicked(int x, int y) {
         if(bMenu.getBounds().contains(x, y)){
             SetGameState(MENU);
-            pause();
+            
         }else if(bPause.getBounds().contains(x,y)){
             pause();
         }else{
             if(sellButton.getBounds().contains(x,y)){
+                playing.getGame().playSE(1);
                 sellTower();
                 return;
             }else if(upgradeButton.getBounds().contains(x,y) && mageInfro.getTier() < 3){
                 if(this.isCanUpgrade(mageInfro.getTowerType())){
+                    playing.getGame().playSE(1);
                     upgradeTower();
                     return;
                 }
@@ -285,6 +289,7 @@ public class InGameBar {
                     if(!isGoldEnough(m.getId())){
                         return;
                     }
+                        playing.getGame().playSE(1);
                         selectedTower = new MageTower(x,y,m.getId(),id++);
                         playing.setSelectedTower(selectedTower);
                         return;

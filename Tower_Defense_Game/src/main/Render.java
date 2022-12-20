@@ -17,18 +17,17 @@ public class Render {
 		switch (GameStates.gameState) {
 
 		case MENU:
-			game.getMenu().render(g);
-
-			break;
+                    game.getMenu().render(g);
+                    break;
 		case PLAYING:
-			
-			game.getPlaying().render(g);
-
-			break;
+                    game.getPlaying().render(g);
+                    break;
 		case GAMEOVER:
-			game.getGameOver().render(g);
-			break;
-
+                    game.getGameOver().render(g);
+                    break;
+                case GAMEVICTORY:
+                    game.getGameVictory().render(g);
+                    break;
 		}
 
 	}

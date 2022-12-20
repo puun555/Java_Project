@@ -21,7 +21,7 @@ import ui.MyImage;
 public class GameOver extends GameScene implements SceneMethods{
     private Images images;
     private MyImage gameOverBg,defeatUI;
-    private MyButton bMenu,bTryAgain;
+    private MyButton bMenu;
     
     public GameOver(Game game) {
         super(game);

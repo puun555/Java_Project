@@ -14,6 +14,8 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import main.Game;
+import main.GameStates;
+import static main.GameStates.GAMEVICTORY;
 import managers.DecorationManager;
 import managers.EnemyManager;
 import managers.MageTowerManager;
@@ -22,6 +24,8 @@ import managers.TileManager;
 import managers.WaveManager;
 import objects.MageTower;
 import ui.InGameBar;
+import ui.Music;
+import ui.MyTextButton;
 
 
 public class Playing extends GameScene implements SceneMethods {
@@ -52,7 +56,6 @@ public class Playing extends GameScene implements SceneMethods {
         //LoadSave.readFile();
         saveLevel();
         loadLevel();
-         
     }
     public void createLevel(){
         LoadSave.CreateLevel("new Level", Utilz.TwoDTo1DArr(lvl));
@@ -68,6 +71,7 @@ public class Playing extends GameScene implements SceneMethods {
             }
             if(isAllEnemiesDead()){
                 if(isThereMoreWaves()){
+                    
                     //checkTimer
                     waveManager.startTimer();
                     //check timer for new wave
@@ -75,6 +79,12 @@ public class Playing extends GameScene implements SceneMethods {
                         waveManager.incraseWaveIndex();
                         enemyManager.getEnemies().clear();
                         waveManager.resetEnemyIndex();
+                    }
+                    if(waveManager.getWaveIndex() == waveManager.getWaves().size()){
+                        waveManager.reset();
+                        this.playSE(3);
+                        this.volumeDown(3);
+                        GameStates.SetGameState(GAMEVICTORY);
                     }
                 }
             }
@@ -134,12 +144,14 @@ public class Playing extends GameScene implements SceneMethods {
             mageTowerManager.draw(g);
             drawSelectedTower(g);
             projectileManager.draw(g);
+            
         }catch(Exception e){
             
         }
         
         
     }
+   
     private void drawSelectedTower(Graphics g) {
         if(selectedTower != null){
             g.drawImage(mageTowerManager.getMageSprite()[selectedTower.getTowerType()], mouseX, mouseY-28,32,48, null);
@@ -272,6 +284,19 @@ public class Playing extends GameScene implements SceneMethods {
             gameBar.setMageInfro(null);
         }
     }
+    public void reset() {
+        gameBar.reset();
+        mageTowerManager.reset();
+        enemyManager.reset();
+        projectileManager.reset();
+        waveManager.reset();
+        selectedTower = null;
+        pause=false;
+        mouseX=0;
+        mouseY=0;
+        goldTick=0;
+    }
+    
     public void upgradeTower(MageTower mageInfro) {
         mageTowerManager.upgradeTower(mageInfro);
     }
@@ -317,18 +342,18 @@ public class Playing extends GameScene implements SceneMethods {
     public boolean isPause() {
         return pause;
     }
-
-    public void reset() {
-        gameBar.reset();
-        mageTowerManager.reset();
-        enemyManager.reset();
-        projectileManager.reset();
-        waveManager.reset();
-        selectedTower = null;
-        pause=false;
-        mouseX=0;
-        mouseY=0;
-        goldTick=0;
+    public void volumeUp(int i){
+        this.getGame().volumeUp(i);
     }
+    public void volumeDown(int i){
+        this.getGame().volumeDown(i);
+    }
+    public void playSound(int i){
+        this.getGame().playSound(i);
+    }
+    public void playSE(int i){
+        this.getGame().playSE(i);
+    }
+
     
 }
