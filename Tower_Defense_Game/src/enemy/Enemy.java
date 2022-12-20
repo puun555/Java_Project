@@ -5,10 +5,10 @@
 package enemy;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import ui.Images;
 import static helpz.Constant.Direction.*;
 import helpz.Constant.Enemies;
+import static helpz.Constant.Enemies.*;
+import managers.EnemyManager;
 /**
  *
  * @author sahad
@@ -17,11 +17,15 @@ public abstract class Enemy {
     protected float x,y;
     protected Rectangle bounds;
     protected int HP,maxHP;
-    protected double speed;
+    protected float speed;
     protected int enemyType;
     protected int lastDir;
     protected boolean alive = true;
-    public Enemy(float x,float y,int enemyType){
+    protected int slowTickLimit = 50;
+    protected int slowTick=slowTickLimit;
+    protected EnemyManager enemyManager;
+    public Enemy(float x,float y,int enemyType,EnemyManager enemyManager){
+        this.enemyManager = enemyManager;
         this.x=x;
         this.y=y;
         this.speed = Enemies.GetSpeed(enemyType);
@@ -37,8 +41,20 @@ public abstract class Enemy {
     public float getHPBar(){
         return HP/(float)maxHP;
     }
-    public void move(int dir){
+    public void slow() {
+        slowTick = 0;
+    }
+    public void kill() {
+        //reach the end
+        this.alive = false;
+        this.HP = 0;
+    }
+    public void move(float speed,int dir){
         lastDir = dir;
+        if(slowTick < slowTickLimit){
+            slowTick ++;
+            speed *= 0f;
+        }
         switch(dir){
             case LEFT:
                 this.x -= speed;
@@ -53,19 +69,33 @@ public abstract class Enemy {
                 this.y += speed;
                 break;
         }
+        updateHitBox();
     }
+    
+    private void updateHitBox() {
+        bounds.x = (int)x;
+        bounds.y = (int)y;
+    }
+    
     public void setPos(int x,int y){
         //for fix pos not fir moving
         this.x = x;
         this.y = y;
     }
     public void attacked(int dmg) {
-        this.HP -= dmg;
+//        if(enemyType == TANKY){
+//            this.HP -= dmg/2;
+//        }else
+            this.HP -= dmg;
+        
         if(this.HP <= 0){
             alive = false;
+            enemyManager.giveGold(enemyType);
         }
     }
-    
+    public void increaseEnemyHpEveryTwoWave(){
+        this.HP *= 1.35;
+    }
     public Rectangle getBounds() {
         return bounds;
     }
@@ -82,7 +112,7 @@ public abstract class Enemy {
         return y;
     }
 
-    public double getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
@@ -101,6 +131,14 @@ public abstract class Enemy {
     public boolean isAlive() {
         return alive;
     }
+    public boolean isSlow(){
+        return slowTick < slowTickLimit;
+    }
+
+    
+    
+
+    
     
     
     

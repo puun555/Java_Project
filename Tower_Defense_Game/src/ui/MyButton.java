@@ -39,6 +39,10 @@ public class MyButton {
         this.id = id;
         initBounds();
     }
+    
+    public void setImage(BufferedImage img){
+        this.img = img;
+    }
     private void initBounds(){
         this.bounds = new Rectangle(x,y,width,height);
     }

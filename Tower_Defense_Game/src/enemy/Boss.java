@@ -5,14 +5,15 @@
 package enemy;
 
 import static helpz.Constant.Enemies.BOSS;
+import managers.EnemyManager;
 
 /**
  *
  * @author sahad
  */
 public class Boss extends Enemy{
-    public Boss(float x,float y){
-        super(x,y,BOSS);
+    public Boss(float x,float y,EnemyManager eManager){
+        super(x,y,BOSS,eManager);
         
     }
 }

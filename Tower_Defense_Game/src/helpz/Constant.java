@@ -9,6 +9,7 @@ package helpz;
  * @author sahad
  */
 public class Constant {
+    public static final int GOLD=280;
     public static class Direction{
         public static final int LEFT=0;
         public static final int UP=1;
@@ -28,38 +29,51 @@ public class Constant {
         public static final int TANKY=1;
         public static final int THIEFT=2;
         public static final int BOSS=3;
-        public static double GetSpeed(int type){
+        public static int getGold(int type){
             switch(type){
                 case NORMAL:
-                    return .5;
+                    return 5;
                 case TANKY:
-                    return .3;
+                    return 10;
                 case THIEFT:
-                    return .7;
+                    return 5;
                 case BOSS:
-                    return .5;
+                    return 50;
+            }
+            return 0;
+        }
+        public static float GetSpeed(int type){
+            switch(type){
+                case NORMAL:
+                    return 1f;
+                case TANKY:
+                    return .5f;
+                case THIEFT:
+                    return 1.5f;
+                case BOSS:
+                    return .8f;
             }
             return 0;
         }
         public static int GetHealth(int type){
             switch(type){
                 case NORMAL:
-                    return 100;
+                    return 6;
                 case TANKY:
-                    return 200;
+                    return 12;
                 case THIEFT:
-                    return 70;
+                    return 4;
                 case BOSS:
-                    return 500;
+                    return 175;
             }
             return 0;
         }
     }
     public static class Mages{
         public static final int WIND=0;
-        public static final int ICE=1;
-        public static final int EARTH=2;
-        public static final int FIRE=3;
+        public static final int FIRE=1;
+        public static final int ICE=2;
+        public static final int EARTH=3;
         public static String GetNameMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
@@ -76,26 +90,26 @@ public class Constant {
         public static int GetCostMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 200;
+                    return 600;
                 case EARTH:
-                    return 300;
+                    return 400;
                 case WIND:
-                    return 100;
+                    return 150;
                 case FIRE:
-                    return 500;
+                    return 250;
             }
             return 0;
         }
-        public static double GetDamageMage(int mageTowerType){
+        public static int GetDamageMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 40;
+                    return 0;
                 case EARTH:
-                    return 200;
+                    return 3;
                 case WIND:
-                    return 50;
+                    return 2;
                 case FIRE:
-                    return 100;
+                    return 1;
             }
             return 0;
         }
@@ -104,7 +118,7 @@ public class Constant {
                 case ICE:
                     return 70;
                 case EARTH:
-                    return 70;
+                    return 100;
                 case WIND:
                     return 100;
                 case FIRE:
@@ -115,32 +129,46 @@ public class Constant {
         public static double GetCooldownMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 10;
+                    return 30;
                 case EARTH:
-                    return 10;
+                    return 30;
                 case WIND:
-                    return 10;
+                    return 30;
                 case FIRE:
-                    return 10;
+                    return 15;
             }
             return 0;
+        }
+
+        public static String GetAbilityMage(int towerType) {
+            switch(towerType){
+                case ICE:
+                    return "Freezeeee !!";
+                case EARTH:
+                    return "Penetrate !!";
+                case WIND:
+                    return "AoE Damage!!";
+                case FIRE:
+                    return "Rapid & High dmg !!";
+            }
+            return "";
         }
     }
     public static class Projectiles{
         public static final int WIND_SPELL=0;
-        public static final int ICE_SPELL=1;
-        public static final int EARTH_SPELL=2;
-        public static final int FIRE_SPELL=3;
+        public static final int ICE_SPELL=2;
+        public static final int EARTH_SPELL=3;
+        public static final int FIRE_SPELL=1;
         public static float GetSpeed(int mageTowerType){
             switch(mageTowerType){
                 case ICE_SPELL:
-                    return 2;
+                    return 10;
                 case EARTH_SPELL:
-                    return 1;
+                    return 10;
                 case WIND_SPELL:
-                    return 4;
+                    return 10;
                 case FIRE_SPELL:
-                    return 3;
+                    return 10;
             }
             return 0;
         }

@@ -31,16 +31,14 @@ public class EnemyManager {
         this.playing = playing;
         allImage = new Images();
         enemyImgs = new BufferedImage[4];
-            addEnemy(THIEFT);
-            addEnemy(BOSS);
-       
-        
     }
     public void draw(Graphics g){
         for(Enemy e: enemies){
             if(e.isAlive()){
                 drawEnemy(e,g);
                 drawHpBar(e,g);
+                drawEffect(e,g);
+                
             }
         }
     }
@@ -53,6 +51,7 @@ public class EnemyManager {
             }
         }
     }
+    
     public void updateEnemyMove(Enemy e){
         if(e.getLastDir() == -1){
             setNewDirectionAndMove(e);
@@ -61,10 +60,11 @@ public class EnemyManager {
         int newY = (int)(e.getY() + getYSpeedAndHeight(e.getLastDir(),e.getSpeed()));
         if(getTileType(newX, newY) == ROAD_TILE){
             //Moving same direction
-            e.move(e.getLastDir());
+            e.move(e.getSpeed(),e.getLastDir());
         }
         else if(isTheEnd(e)){
-            
+            e.kill();
+            playing.attackPlayerHp(e.getEnemyType());
         }else{
             setNewDirectionAndMove(e);
         }
@@ -83,16 +83,16 @@ public class EnemyManager {
         if(dir == LEFT || dir == RIGHT){
             int newY = (int)(e.getY() + getYSpeedAndHeight(UP,e.getSpeed()));
             if(getTileType((int)e.getX(),newY) == ROAD_TILE){
-                e.move(UP);
+                e.move(e.getSpeed(),UP);
             }else{
-                e.move(DOWN);
+                e.move(e.getSpeed(),DOWN);
             }
         }else{
             int newX = (int)(e.getX() + getXSpeedAndWidth(RIGHT,e.getSpeed()));
             if(getTileType(newX,(int)e.getY())==ROAD_TILE){
-                e.move(RIGHT);
+                e.move(e.getSpeed(),RIGHT);
             }else{
-                e.move(LEFT);
+                e.move(e.getSpeed(),LEFT);
             }
         }
     }
@@ -121,30 +121,29 @@ public class EnemyManager {
         }
         return false;
     }
+    public void spawnEnemy(int nextEnemy) {
+        addEnemy(nextEnemy);
+    }
     public void addEnemy(int enemyType){
         int x = startX*32;
         int y = startY*32;
         switch(enemyType){
             case NORMAL:
-                enemies.add(new Normal(x,y));
+                enemies.add(new Normal(x,y,this));
                 break;
             case TANKY:
-                enemies.add(new Tanky(x,y));
+                enemies.add(new Tanky(x,y,this));
                 break;
             case THIEFT:
-                enemies.add(new Thieft(x,y));
+                enemies.add(new Thieft(x,y,this));
                 break;
             case BOSS:
-                enemies.add(new Boss(x,y));
+                enemies.add(new Boss(x,y,this));
                 
                 break;
         }
     }
     
-    
-    private int getTileType(int x, int y) {
-        return playing.getTileType(x, y);
-    }
     public double getYSpeedAndHeight(int dir,double speed){
         if(dir == UP){
             return -speed;
@@ -167,16 +166,16 @@ public class EnemyManager {
     private void drawEnemy(Enemy e,Graphics g) {
         switch (e.getEnemyType()) {
             case NORMAL:
-                g.drawImage(allImage.normal_enemy, (int)e.getX(), (int)e.getY()-26, 32,32,null);
+                g.drawImage(allImage.normal_enemy, (int)e.getX(), (int)e.getY(), 32,32,null);
                 break;
             case TANKY:
-                g.drawImage(allImage.tanky_enemy, (int)e.getX(), (int)e.getY()-24, 48,48,null);
+                g.drawImage(allImage.tanky_enemy, (int)e.getX(), (int)e.getY(), 32,32,null);
                 break;
             case THIEFT:
-                g.drawImage(allImage.thieft_enemy, (int)e.getX(), (int)e.getY()-20, 32,40,null);
+                g.drawImage(allImage.thieft_enemy, (int)e.getX(), (int)e.getY(), 32,32,null);
                 break;
             case BOSS:
-                g.drawImage(allImage.boss_enemy, (int)e.getX()-20, (int)e.getY()-32, 64,64,null);
+                g.drawImage(allImage.boss_enemy, (int)e.getX(), (int)e.getY(), 32,32,null);
                 break;
             default:
                 break;
@@ -189,26 +188,37 @@ public class EnemyManager {
         int xWidth = 0;
         switch (e.getEnemyType()) {
             case NORMAL:
-                yOffset = 16;
+                yOffset = 32;
                 xWidth =16;
                 break;
             case TANKY:
-                yOffset = 24;
-                xWidth = 24;
+                yOffset = 32;
+                xWidth = 16;
                 break;
             case THIEFT:
-                yOffset = 20;
+                yOffset = 32;
                 xWidth = 16;
                 break;
             case BOSS:
                 yOffset = 32;
-                xWidth = 18;
+                xWidth = 16;
                 break;
             default:
                 break;
         }
         g.fillRect((int)e.getX() + xWidth - (getNewHpBar(e)/2), (int)e.getY()+yOffset+2, getNewHpBar(e), 3);
     }
+    
+    private void drawEffect(Enemy e, Graphics g) {
+        if(e.isSlow()){
+            g.drawImage(allImage.freeze_effect, (int)e.getX(), (int)e.getY(), null);
+        }
+    }
+
+    private int getTileType(int x, int y) {
+        return playing.getTileType(x, y);
+    }
+    
     private int getNewHpBar(Enemy e){
         return (int)(HpWidth * e.getHPBar());
     }
@@ -216,8 +226,20 @@ public class EnemyManager {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
-    
+     public int getLiveEnemy() {
+        int size= 0;
+        for(Enemy e:enemies){
+            if(e.isAlive()){
+                size++;
+            }
+        }
+        return size;
+    }
 
-    
-    
+    public void giveGold(int enemyType) {
+        playing.giveGold(enemyType);
+    }
+    public void attackPlayerHp(int enemyType){
+        playing.attackPlayerHp(enemyType);
+    }
 }

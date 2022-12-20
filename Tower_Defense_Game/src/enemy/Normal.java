@@ -5,13 +5,14 @@
 package enemy;
 
 import static helpz.Constant.Enemies.NORMAL;
+import managers.EnemyManager;
 
 /**
  *
  * @author sahad
  */
 public class Normal extends Enemy{
-    public Normal(float x,float y){
-        super(x,y,NORMAL); 
+    public Normal(float x,float y,EnemyManager eManager){
+        super(x,y,NORMAL,eManager); 
     }
 }

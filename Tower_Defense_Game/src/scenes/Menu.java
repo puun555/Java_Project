@@ -61,10 +61,10 @@ public class Menu extends GameScene implements SceneMethods {
         int w = 150;
         int h = w/3;
         int x = 640 / 2 - w / 2;
-        int y = 150;
+        int y = 250;
         int yOffset = 80;
-        bBg = new MyImage(allImage.background,0,0,672,740);
-        bLogo = new MyImage(allImage.logoImage,640 / 2 - 250 / 2,20,250,250);
+        bBg = new MyImage(allImage.background,-20,0,672,800);
+        bLogo = new MyImage(allImage.logoImage,640 / 2 - 600 / 2,150,600,100);
         bPlaying = new MyButton(allImage.start_button,x,y+yOffset,w,h);
         bQuit = new MyButton(allImage.quit_button,x,y+yOffset*2,w,h);
     }

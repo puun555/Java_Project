@@ -5,14 +5,15 @@
 package enemy;
 
 import static helpz.Constant.Enemies.THIEFT;
+import managers.EnemyManager;
 
 /**
  *
  * @author sahad
  */
 public class Thieft extends Enemy{
-    public Thieft(float x,float y){
-        super(x,y,THIEFT);
+    public Thieft(float x,float y,EnemyManager eManager){
+        super(x,y,THIEFT,eManager);
          
     }
 }

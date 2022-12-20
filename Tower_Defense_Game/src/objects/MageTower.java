@@ -5,24 +5,64 @@
 package objects;
 
 import helpz.Constant;
+import static helpz.Constant.Mages.*;
 
 /**
  *
  * @author sahad
  */
 public class MageTower {
-    private int x,y;
+    private int x,y,cdTick;
     private int towerType;
-    private double damage,range,cooldown;
-    public MageTower(int x, int y,int towerType){
+    private int damage;
+    private double range,cooldown;
+    private int id;
+    private int tier;
+    public MageTower(int x, int y,int towerType,int id){
         this.x = x;
         this.y = y;
         this.towerType = towerType;
+        this.id = id;
+        this.tier = 1;
         setDamage();
         setRange();
         setCooldown();
     }
+    public void upgradeTower(){
+        tier++;
+        switch(towerType){
+            case ICE:
+                range += 10;
+                cooldown -= 5;
+                break;
+            case EARTH:
+                damage *= 2;
+                range += 10;
+                cooldown -= 5;
+                break;
+            case WIND:
+                damage *= 2;
+                range += 10;
+                cooldown -= 5;
+                break;
+            case FIRE:
+                damage *= 2;
+                range += 10;
+                cooldown -= 5;
+                break;
+        }
+    }
+    public void update(){
+        cdTick++;
+    }
+    public boolean isCooldownOver() {
+        
+        return cdTick >= cooldown;
+    }
 
+    public void resetCooldown() {
+        cdTick = 0;
+    }
     public int getX() {
         return x;
     }
@@ -47,7 +87,7 @@ public class MageTower {
         cooldown = Constant.Mages.GetCooldownMage(towerType);
     }
 
-    public double getDamage() {
+    public int getDamage() {
         return damage;
     }
 
@@ -58,6 +98,15 @@ public class MageTower {
     public double getCooldown() {
         return cooldown;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+    
     
    
 

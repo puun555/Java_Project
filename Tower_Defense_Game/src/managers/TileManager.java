@@ -21,7 +21,7 @@ public class TileManager {
 
 	private void createTiles() {
             tiles.add(GRASS = new Tile(getSprite(2, 0),GRASS_TILE));
-            tiles.add(WATER = new Tile(getAniSprites(0, 1), WATER_TILE));
+            tiles.add(WATER = new Tile(getSprite(2, 0), WATER_TILE));
             tiles.add(ROAD_LR = new Tile(getSprite(6, 0), ROAD_TILE));
             tiles.add(ROAD_UD = new Tile(getSprite(7, 0), ROAD_TILE));
             tiles.add(ROAD_LD = new Tile(getSprite(0,0), ROAD_TILE));

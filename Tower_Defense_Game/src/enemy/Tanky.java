@@ -5,14 +5,15 @@
 package enemy;
 
 import static helpz.Constant.Enemies.TANKY;
+import managers.EnemyManager;
 
 /**
  *
  * @author sahad
  */
 public class Tanky extends Enemy{
-    public Tanky(float x,float y){
-        super(x,y,TANKY);
+    public Tanky(float x,float y,EnemyManager eManager){
+        super(x,y,TANKY,eManager);
         
     }
 }

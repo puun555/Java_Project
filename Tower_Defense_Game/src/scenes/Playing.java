@@ -1,5 +1,7 @@
 package scenes;
 
+import enemy.Enemy;
+import helpz.Constant.Enemies;
 import static helpz.Constant.Tiles.GRASS_TILE;
 import static helpz.Constant.Tiles.TOWER_TILE;
 import java.awt.Graphics;
@@ -8,6 +10,7 @@ import helpz.LevelBuild;
 import helpz.LoadSave;
 import helpz.Utilz;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import main.Game;
@@ -16,6 +19,7 @@ import managers.EnemyManager;
 import managers.MageTowerManager;
 import managers.ProjectileManager;
 import managers.TileManager;
+import managers.WaveManager;
 import objects.MageTower;
 import ui.InGameBar;
 
@@ -29,7 +33,11 @@ public class Playing extends GameScene implements SceneMethods {
     private MageTowerManager mageTowerManager;
     private MageTower selectedTower;
     private ProjectileManager projectileManager;
+    private WaveManager waveManager;
     private int mouseX,mouseY;
+    private int goldTick;
+    private final Font font = new Font("Monospaced", Font.BOLD, 17);
+    private boolean pause;
     public Playing(Game game) {
         super(game);
         lvl = LevelBuild.getLevelData();
@@ -40,6 +48,7 @@ public class Playing extends GameScene implements SceneMethods {
         mageTowerManager = new MageTowerManager(this);
         enemyManager = new EnemyManager(this);
         projectileManager = new ProjectileManager(this);
+        waveManager = new WaveManager(this);
         //LoadSave.readFile();
         saveLevel();
         loadLevel();
@@ -50,10 +59,64 @@ public class Playing extends GameScene implements SceneMethods {
     }
        
     public void update(){
-        mageTowerManager.update();
-        enemyManager.update();
-        projectileManager.update();
-        updateTick();
+        if(!pause){
+            waveManager.update();
+            //Generate Gold
+            goldTick++;
+            if(goldTick % (60 * 3) == 0){
+                gameBar.giveGold(1);
+            }
+            if(isAllEnemiesDead()){
+                if(isThereMoreWaves()){
+                    //checkTimer
+                    waveManager.startTimer();
+                    //check timer for new wave
+                    if(isWaveTimerOver()){
+                        waveManager.incraseWaveIndex();
+                        enemyManager.getEnemies().clear();
+                        waveManager.resetEnemyIndex();
+                    }
+                }
+            }
+            if(isTimeForNewEnemies()){
+                spawnEnemy();
+            }
+            
+            mageTowerManager.update();
+            enemyManager.update();
+            projectileManager.update();
+            updateTick();
+        }
+    }
+    public boolean isWaveTimerOver(){
+        return waveManager.isWaveTimerOver();
+    }
+    public boolean isThereMoreWaves(){
+        return waveManager.isThereMoreWaves();
+    }
+    public boolean isAllEnemiesDead(){
+        if(waveManager.isThereMoreEnemyInWave()){
+            return false;
+        }
+        for(Enemy e:enemyManager.getEnemies()){
+            if(e.isAlive()){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void spawnEnemy() {
+        enemyManager.spawnEnemy(waveManager.getNextEnemy());
+    }
+
+    private boolean isTimeForNewEnemies() {
+        if(waveManager.isTimeForNewEnemies()){
+            if(waveManager.isThereMoreEnemyInWave()){
+                return true;
+            }
+        }
+        return false;
     }
     private void saveLevel(){
         LoadSave.SaveLevel("new Level", lvl);
@@ -73,12 +136,14 @@ public class Playing extends GameScene implements SceneMethods {
         mageTowerManager.draw(g);
         drawSelectedTower(g);
         projectileManager.draw(g);
+        
     }
+    
+    
     
     private void drawSelectedTower(Graphics g) {
         if(selectedTower != null){
             g.drawImage(mageTowerManager.getMageSprite()[selectedTower.getTowerType()], mouseX, mouseY-28,32,48, null);
-            
         }
     }
     
@@ -119,16 +184,6 @@ public class Playing extends GameScene implements SceneMethods {
             }
         }
     }
-    private BufferedImage getTree(int spriteID) {
-	return game.getDecorationManager().getTree(spriteID);
-    }
-    private BufferedImage getSprite(int spriteID) {
-	return game.getTileManager().getSprite(spriteID);
-    }
-    private BufferedImage getSprite(int spriteID, int animationIndex) {
-	return game.getTileManager().getAniSprite(spriteID, animationIndex);
-    }
-   
     @Override
     public void mouseClicked(int x, int y) {
         if(y >= 640){
@@ -140,10 +195,12 @@ public class Playing extends GameScene implements SceneMethods {
                     if(getPosTower(mouseX,mouseY) == null){
                         mageTowerManager.addTower(selectedTower,mouseX,mouseY);
                         gameBar.setMageInfro(selectedTower);
+                        removeGold(selectedTower.getTowerType());
                         selectedTower = null;
                     }else{
                         System.out.println("You can not place tower as same position");
                     }
+                
                 gameBar.setMageInfro(null);
                 }
             }
@@ -153,15 +210,23 @@ public class Playing extends GameScene implements SceneMethods {
             }
         }
     }
-    private MageTower getPosTower(int x, int y) {
-        return mageTowerManager.getPosTower(x,y);
+    public void attackPlayerHp(int enemyType){
+        gameBar.attackPlayerHp(Enemies.GetHealth(enemyType));
+    }
+    public void giveGold(int enemyType) {
+        gameBar.giveGold(Enemies.getGold(enemyType));
+    }
+     private void removeGold(int towerType) {
+         gameBar.payForTower(towerType);
     }
     private boolean canPlaceTower(int x,int y) {
         int id = lvl[y/32][x/32];
         int tileType = game.getTileManager().getTile(id).getTileType();
         return tileType == GRASS_TILE;
     }
-
+    public void shootEnemy(MageTower m,Enemy e){
+        projectileManager.newProjectile(m,e);
+    }
     @Override
     public void mouseMove(int x, int y) {
         if(y >= 640){
@@ -172,7 +237,7 @@ public class Playing extends GameScene implements SceneMethods {
             mouseY = (y/32) * 32;
         }
     }
-
+    
     @Override
     public void mousePressed(int x, int y) {
         if(y >= 640){
@@ -201,9 +266,7 @@ public class Playing extends GameScene implements SceneMethods {
         return game.getTileManager().getTile(id).getTileType();
     }
 
-    public MageTowerManager getMageTowerManager() {
-        return mageTowerManager;
-    }
+    
 
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
@@ -211,27 +274,52 @@ public class Playing extends GameScene implements SceneMethods {
             gameBar.setMageInfro(null);
         }
     }
-
+    public void upgradeTower(MageTower mageInfro) {
+        mageTowerManager.upgradeTower(mageInfro);
+    }
+    public void sellTower(MageTower mageInfro) {
+        mageTowerManager.sellTower(mageInfro);
+    }
+    public void setPause(boolean b) {
+        this.pause = b;
+    }
+    private BufferedImage getTree(int spriteID) {
+	return game.getDecorationManager().getTree(spriteID);
+    }
+    
+    private BufferedImage getSprite(int spriteID) {
+	return game.getTileManager().getSprite(spriteID);
+    }
+    
+    private BufferedImage getSprite(int spriteID, int animationIndex) {
+	return game.getTileManager().getAniSprite(spriteID, animationIndex);
+    }
+    
+    private MageTower getPosTower(int x, int y) {
+        return mageTowerManager.getPosTower(x,y);
+    }
+    
+    public MageTowerManager getMageTowerManager() {
+        return mageTowerManager;
+    }
+    
     public EnemyManager getEnemyManager() {
         return enemyManager;
     }
     
-    
 
-    
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
 
-    
+    public InGameBar getGameBar() {
+        return gameBar;
+    }
 
-    
+    public boolean isPause() {
+        return pause;
+    }
 
-    
-
-    
-    
-
-    
-
-    
-
+   
     
 }
