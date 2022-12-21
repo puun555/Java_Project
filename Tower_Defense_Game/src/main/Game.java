@@ -35,7 +35,7 @@ public class Game extends JFrame implements Runnable {
 		initClasses();
                 this.setTitle("Tower Defense Beginner");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		setLocation(700,100);
 		setResizable(false);
 		add(gameScreen);
 		pack();
