@@ -33,7 +33,11 @@ public class InGameBar {
     private boolean showMage;
     private int imageIndex;
     private int gold = Constant.GOLD;
+<<<<<<< Updated upstream
     private int playerHp = Constant.playerHP;
+=======
+    private int playerHp = 200;
+>>>>>>> Stashed changes
     private BufferedImage[] mage_Button;
     private MyTextButton sellButton,upgradeButton;
     public InGameBar(int x,int y,int width,int height, Playing playing){
@@ -353,7 +357,11 @@ public class InGameBar {
         return playerHp;
     }
     public void reset(){
+<<<<<<< Updated upstream
         playerHp = Constant.playerHP;
+=======
+        playerHp = 200;
+>>>>>>> Stashed changes
         showMage=false;
         imageIndex=0;
         gold=Constant.GOLD;

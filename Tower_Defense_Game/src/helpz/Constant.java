@@ -9,8 +9,12 @@ package helpz;
  * @author sahad
  */
 public class Constant {
+<<<<<<< Updated upstream
     public static final int GOLD=290;
     public static int playerHP =500;
+=======
+    public static final int GOLD=330;
+>>>>>>> Stashed changes
     public static class Direction{
         public static final int LEFT=0;
         public static final int UP=1;
@@ -48,7 +52,7 @@ public class Constant {
                 case NORMAL:
                     return .7f;
                 case TANKY:
-                    return .45f;
+                    return .44f;
                 case THIEFT:
                     return 2.1f;
                 case BOSS:
@@ -61,11 +65,11 @@ public class Constant {
                 case NORMAL:
                     return 7;
                 case TANKY:
-                    return 12;
+                    return 13;
                 case THIEFT:
                     return 5;
                 case BOSS:
-                    return 181;
+                    return 189;
             }
             return 0;
         }
@@ -92,13 +96,13 @@ public class Constant {
         public static int GetCostMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 600;
+                    return 500;
                 case EARTH:
                     return 270;
                 case WIND:
-                    return 120;
+                    return 140;
                 case FIRE:
-                    return 180;
+                    return 190;
             }
             return 0;
         }
@@ -124,7 +128,7 @@ public class Constant {
                 case WIND:
                     return 140;
                 case FIRE:
-                    return 80;
+                    return 70;
             }
             return 0;
         }

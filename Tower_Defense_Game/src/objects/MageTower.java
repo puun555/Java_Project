@@ -36,18 +36,18 @@ public class MageTower {
                 cooldown -= 5;
                 break;
             case EARTH:
-                damage *= 2;
-                range += 10;
-                cooldown -= 5;
+                damage *= 1.2;
+                range += 0;
+                cooldown -= 0;
                 break;
             case WIND:
-                damage *= 2;
-                range += 10;
-                cooldown -= 5;
+                damage *= 1.2;
+                range += 5;
+                cooldown -= 0;
                 break;
             case FIRE:
-                damage *= 2;
-                range += 10;
+                damage *= 1.1;
+                range += 0;
                 cooldown -= 5;
                 break;
         }
