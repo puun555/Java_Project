@@ -9,12 +9,9 @@ package helpz;
  * @author sahad
  */
 public class Constant {
-<<<<<<< Updated upstream
     public static final int GOLD=290;
     public static int playerHP =500;
-=======
-    public static final int GOLD=330;
->>>>>>> Stashed changes
+
     public static class Direction{
         public static final int LEFT=0;
         public static final int UP=1;
