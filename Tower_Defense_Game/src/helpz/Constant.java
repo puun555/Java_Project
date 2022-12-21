@@ -10,7 +10,7 @@ package helpz;
  */
 public class Constant {
     public static final int GOLD=290;
-    public static int playerHP =500;
+    public static int playerHP =200;
     public static class Direction{
         public static final int LEFT=0;
         public static final int UP=1;
@@ -61,11 +61,11 @@ public class Constant {
                 case NORMAL:
                     return 7;
                 case TANKY:
-                    return 12;
+                    return 13;
                 case THIEFT:
                     return 5;
                 case BOSS:
-                    return 181;
+                    return 187;
             }
             return 0;
         }
@@ -92,13 +92,13 @@ public class Constant {
         public static int GetCostMage(int mageTowerType){
             switch(mageTowerType){
                 case ICE:
-                    return 600;
+                    return 500;
                 case EARTH:
                     return 270;
                 case WIND:
-                    return 120;
+                    return 140;
                 case FIRE:
-                    return 180;
+                    return 190;
             }
             return 0;
         }
